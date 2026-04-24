@@ -48,10 +48,10 @@ module "app_namespace" {
 }
 
 resource "helm_release" "sample_app" {
-  name       = "sample-app"
-  chart      = "${path.root}/../../charts/sample-app"
-  namespace  = module.app_namespace.name
-  version    = "0.1.0"
+  name      = "sample-app"
+  chart     = "${path.root}/../../charts/sample-app"
+  namespace = module.app_namespace.name
+  version   = "0.1.0"
 
   set {
     name  = "replicaCount"
