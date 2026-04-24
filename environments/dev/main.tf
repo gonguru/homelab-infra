@@ -1,3 +1,4 @@
+#dev environment - managed by Terraform :)
 terraform {
   required_providers {
     kubernetes = {
