@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.25"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12"
+    }
   }
 
   backend "s3" {
@@ -27,11 +31,35 @@ provider "kubernetes" {
   config_context = "default"
 }
 
+provider "helm" {
+  kubernetes {
+    config_path    = var.kubeconfig_path
+    config_context = "default"
+  }
+}
+
 module "app_namespace" {
   source = "../../modules/namespace"
   name   = "homelab-dev"
   labels = {
     environment = "dev"
     managed-by  = "terraform"
+  }
+}
+
+resource "helm_release" "sample_app" {
+  name       = "sample-app"
+  chart      = "${path.root}/../../charts/sample-app"
+  namespace  = module.app_namespace.name
+  version    = "0.1.0"
+
+  set {
+    name  = "replicaCount"
+    value = "2"
+  }
+
+  set {
+    name  = "image.tag"
+    value = "1.25"
   }
 }
