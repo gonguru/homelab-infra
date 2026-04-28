@@ -50,9 +50,13 @@ jobs:
 
       - name: Terraform plan
         working-directory: ${{ env.TF_WORKING_DIR }}
+        env:
+          TF_VAR_grafana_admin_password: ${{ secrets.GRAFANA_PASSWORD }}
         run: terraform plan
 
       - name: Terraform apply
         working-directory: ${{ env.TF_WORKING_DIR }}
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          TF_VAR_grafana_admin_password: ${{ secrets.GRAFANA_PASSWORD }}
         run: terraform apply -auto-approve
