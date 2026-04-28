@@ -28,7 +28,7 @@ resource "kubernetes_ingress_v1" "grafana" {
 
   spec {
     rule {
-      host = "grafana.homelab.dev"
+      host = "grafana.lan"
       http {
         path {
           path      = "/"
