@@ -47,6 +47,12 @@ module "app_namespace" {
   }
 }
 
+module "monitoring" {
+  source                 = "../../modules/monitoring"
+  kubeconfig_path        = var.kubeconfig_path
+  grafana_admin_password = var.grafana_admin_password
+}
+
 resource "helm_release" "sample_app" {
   name      = "sample-app"
   chart     = "${path.root}/../../charts/sample-app"
